@@ -5,6 +5,29 @@ def is_simple_palindrome(text: str) -> bool:
     return text == text[::-1]
 
 
+def naive_lps(text: str) -> str:
+    text_length = len(text)
+
+    maxLength = 1
+    start = 0
+
+    for i in range(text_length):
+        for j in range(i, text_length):
+            is_substring_palindrome = True
+
+            # Check palindrome
+            for k in range(0, ((j - i) // 2) + 1):
+                if text[i + k] != text[j - k]:
+                    is_substring_palindrome = False
+
+            # Palindrome
+            if is_substring_palindrome and (j - i + 1) > maxLength:
+                start = i
+                maxLength = j - i + 1
+
+    return text[start: (start + maxLength)]
+
+
 def longest_palindromic_substring(text: str) -> str:
     # Reference: https://leetcode.com/problems/longest-palindromic-substring/discuss/3337/Manacher-algorithm-in-Python-O(n)
     # Transform S into T.
@@ -101,9 +124,13 @@ def minimum_cuts_for_palindrome_substrings(text: str) -> int:
 
 
 if __name__ == '__main__':
-    t = timeit.Timer(lambda: minimum_cuts_for_palindrome_substrings("abaxyzzyxf"))
-    print(t.timeit(100_000))
-    t = timeit.Timer(lambda: longest_palindromic_substring("abaxyzzyxf"))
-    print(t.timeit(100_000))
-    t = timeit.Timer(lambda: is_simple_palindrome("abcdcba"))
-    print(t.timeit(100_000))
+    print(naive_lps("abaxyzzyxf"))
+    # funcs = {
+    #     is_simple_palindrome: "abcdcba",
+    #     longest_palindromic_substring: "abaxyzzyxf",
+    #     naive_lps: "abaxyzzyxf",
+    #     minimum_cuts_for_palindrome_substrings: "noonabbad",
+    # }
+    # for func, val in funcs.items():
+    #     t = timeit.Timer(lambda: func(val))
+    #     print(t.timeit(10_000))
