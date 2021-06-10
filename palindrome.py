@@ -34,7 +34,7 @@ def longest_palindromic_substring(text: str) -> str:
 def minimum_cuts_for_palindrome_substrings(text: str) -> int:
     # Reference: https://www.geeksforgeeks.org/palindrome-partitioning-dp-17/
     # Function to check if input string is palindrome or not
-    def is_palindrome(input, start, end):
+    def is_palindrome(input: str, start: int, end: int) -> bool:
         # Using two pointer technique to check palindrome
         while start < end:
             if input[start] != input[end]:
@@ -44,12 +44,12 @@ def minimum_cuts_for_palindrome_substrings(text: str) -> int:
         return True
 
     # Function to find keys for the Hashmap
-    def convert(a, b):
+    def convert(a: int, b: int) -> str:
         return str(a) + str(b)
 
     # Returns the minimum number of cuts needed to partition a string
     # such that every part is a palindrome
-    def minpalparti_memo(input, i, j, memo):
+    def minpalparti_memo(input: str, i: int, j: int, memo: dict):
         if i > j:
             return 0
 
