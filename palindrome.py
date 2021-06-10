@@ -1,5 +1,4 @@
 import timeit
-import numpy as np
 
 
 def is_simple_palindrome(text: str) -> bool:
