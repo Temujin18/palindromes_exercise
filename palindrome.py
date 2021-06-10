@@ -124,13 +124,12 @@ def minimum_cuts_for_palindrome_substrings(text: str) -> int:
 
 
 if __name__ == '__main__':
-    print(naive_lps("abaxyzzyxf"))
-    # funcs = {
-    #     is_simple_palindrome: "abcdcba",
-    #     longest_palindromic_substring: "abaxyzzyxf",
-    #     naive_lps: "abaxyzzyxf",
-    #     minimum_cuts_for_palindrome_substrings: "noonabbad",
-    # }
-    # for func, val in funcs.items():
-    #     t = timeit.Timer(lambda: func(val))
-    #     print(t.timeit(10_000))
+    funcs = {
+        is_simple_palindrome: "abcdcba",
+        longest_palindromic_substring: "abaxyzzyxf",
+        naive_lps: "abaxyzzyxf",
+        minimum_cuts_for_palindrome_substrings: "noonabbad",
+    }
+    for func, val in funcs.items():
+        t = timeit.Timer(lambda: func(val))
+        print(t.timeit(10_000))
