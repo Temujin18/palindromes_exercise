@@ -61,7 +61,7 @@ def minimum_cuts_for_palindrome_substrings(text: str) -> int:
         if ij in memo:
             return memo[ij]
 
-        # Every String of length 1 is a pallindrome
+        # Every String of length 1 is a palindrome
         if i == j:
             memo[ij] = 0
             return 0
@@ -103,8 +103,8 @@ def minimum_cuts_for_palindrome_substrings(text: str) -> int:
 
 if __name__ == '__main__':
     t = timeit.Timer(lambda: minimum_cuts_for_palindrome_substrings("abaxyzzyxf"))
-    print(t.timeit(300_000))
+    print(t.timeit(100_000))
     t = timeit.Timer(lambda: longest_palindromic_substring("abaxyzzyxf"))
-    print(t.timeit(300_000))
+    print(t.timeit(100_000))
     t = timeit.Timer(lambda: is_simple_palindrome("abcdcba"))
-    print(t.timeit(300_000))
+    print(t.timeit(100_000))
