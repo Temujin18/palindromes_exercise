@@ -1,31 +1,32 @@
 import timeit
+from numba import jit
 
 
 def is_simple_palindrome(text: str) -> bool:
     return text == text[::-1]
 
 
+@jit(nopython=True)
 def naive_lps(text: str) -> str:
     text_length = len(text)
 
-    maxLength = 1
+    max_length = 1
     start = 0
 
     for i in range(text_length):
         for j in range(i, text_length):
+            # string of length 1 is considered a palindrome at start
             is_substring_palindrome = True
 
-            # Check palindrome
             for k in range(0, ((j - i) // 2) + 1):
                 if text[i + k] != text[j - k]:
                     is_substring_palindrome = False
 
-            # Palindrome
-            if is_substring_palindrome and (j - i + 1) > maxLength:
+            if is_substring_palindrome and (j - i + 1) > max_length:
                 start = i
-                maxLength = j - i + 1
+                max_length = j - i + 1
 
-    return text[start: (start + maxLength)]
+    return text[start:(start + max_length)]
 
 
 def longest_palindromic_substring(text: str) -> str:
@@ -55,6 +56,7 @@ def longest_palindromic_substring(text: str) -> str:
 
 def minimum_cuts_for_palindrome_substrings(text: str) -> int:
     # Reference: https://www.geeksforgeeks.org/palindrome-partitioning-dp-17/
+
     # Function to check if input string is palindrome or not
     def is_palindrome(input: str, start: int, end: int) -> bool:
         # Using two pointer technique to check palindrome
@@ -130,6 +132,9 @@ if __name__ == '__main__':
         naive_lps: "abaxyzzyxf",
         minimum_cuts_for_palindrome_substrings: "noonabbad",
     }
-    for func, val in funcs.items():
-        t = timeit.Timer(lambda: func(val))
-        print(t.timeit(10_000))
+    # Loop twice, Numba would compile during first loop and will take time
+    # On second loop, numba would use cached function and would run faster
+    for _ in range(2):
+        for func, val in funcs.items():
+            t = timeit.Timer(lambda: func(val))
+            print(f"{func.__name__}: {t.timeit(10_000)}")
